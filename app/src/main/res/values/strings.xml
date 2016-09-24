@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Converter</string>
+    <string name="binary">2</string>
+    <string name="octal">8</string>
+    <string name="decimal">10</string>
+    <string name="hexadecimal">16</string>
+    <string name="calc_button">Посчитать</string>
+</resources>
