@@ -63,8 +63,7 @@ public class OctalNumberSystem {
 
     public String toBinary() {
         if (isOctal()) {
-            String dec = this.toDecimal();
-            DecimalNumberSystem d = new DecimalNumberSystem(dec);
+            DecimalNumberSystem d = new DecimalNumberSystem(this.toDecimal());
 
             return d.toBinary();
         } else {

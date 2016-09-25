@@ -65,6 +65,29 @@
                 android:inputType="text"
                 android:id="@+id/enter_num" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="202dp"
+                    android:layout_height="match_parent"
+                    android:textSize="12dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Разрядность переведенного числа: "
+                    android:id="@+id/capacity" />
+
+                <EditText
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:textSize="11dp"
+                    android:inputType="number"
+                    android:id="@+id/enter_capacity" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <Button

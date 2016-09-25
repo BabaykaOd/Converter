@@ -91,7 +91,6 @@ public class DecimalNumberSystem {
         }
     }
 
-
     public String toHexadecimal() {
         if(isDecimal()) {
             Double tmp = Double.parseDouble(num);

@@ -19,7 +19,7 @@ import org.antsiferov.converter.NumberSystem.OctalNumberSystem;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button calc;
-    EditText enter;
+    EditText enter, enter_capacity;
     TextView show;
     RadioGroup first_radio_group, second_radio_group;
     RadioButton first_binary, first_octal, first_decimal,
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         calc = (Button)findViewById(R.id.calc);
         enter = (EditText)findViewById(R.id.enter_num);
+        enter_capacity = (EditText)findViewById(R.id.enter_capacity);
         show = (TextView)findViewById(R.id.show_result);
         first_radio_group = (RadioGroup)findViewById(R.id.first_radio_group);
         second_radio_group = (RadioGroup)findViewById(R.id.second_radio_group);
@@ -49,9 +50,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calc.setOnClickListener(this);
     }
 
+    public String capacity(int capacity, String str) {
+        String tmp = "", temp = "";
+        int size = str.length();
+
+        for (int i = 0; i <= capacity; i++) {
+            if (i <= capacity - size) {
+                tmp += "0";
+            } else {
+                tmp += str.charAt(i - (capacity - size) - 1);
+            }
+        }
+        Log.d(TAG, "tmp = " + tmp);
+        for (int i = 0; i < tmp.length(); i++) {
+            temp += tmp.charAt(i);
+            if (i % 4 == 0 && i + 1 != tmp.length() - 1) {
+                Log.d(TAG, "(i + 1) % 4 = " + (i + 1) % 4);
+                temp += " ";
+            }
+        }
+
+        return temp;
+    }
+
     @Override
     public void onClick(View view) {
         String str = enter.getText().toString();
+        //int cap = Integer.parseInt(enter_capacity.getText().toString());
 
         if (first_binary.isChecked()) {
             BinaryNumberSystem bin_num = new BinaryNumberSystem(str);
@@ -66,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             } else {
                 Toast.makeText(MainActivity.this, "Неверный ввод, попробуйте еще раз.", Toast.LENGTH_LONG).show();
+                show.setText("ERROR");
             }
         } else if (first_octal.isChecked()) {
             OctalNumberSystem oct = new OctalNumberSystem(str);
@@ -79,22 +105,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     show.setText(oct.toHexadecimal());
                 }
             } else {
+                show.setText("ERROR");
                 Toast.makeText(MainActivity.this, "Неверный ввод, попробуйте еще раз.", Toast.LENGTH_LONG).show();
             }
         } else if (first_decimal.isChecked()) {
             DecimalNumberSystem dec_num = new DecimalNumberSystem(str);
 
-            Log.d(TAG, "str = " + str);
-
             if (dec_num.isDecimal()) {
                 if (second_octal.isChecked()) {
                     show.setText(dec_num.toOctal());
                 } else if (second_binary.isChecked()) {
+                    //Log.d(TAG, "str = " + capacity(cap, dec_num.toBinary()));
                     show.setText(dec_num.toBinary());
                 } else if (second_hexadecimal.isChecked()) {
                     show.setText(dec_num.toHexadecimal());
                 }
             } else {
+                show.setText("ERROR");
                 Toast.makeText(MainActivity.this, "Неверный ввод, попробуйте еще раз.", Toast.LENGTH_LONG).show();
             }
         } else if (first_hexadecimal.isChecked()) {
@@ -109,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     show.setText(hex_num.toDecimal());
                 }
             } else {
+                show.setText("ERROR");
                 Toast.makeText(MainActivity.this, "Неверный ввод, попробуйте еще раз.", Toast.LENGTH_LONG).show();
             }
         }
