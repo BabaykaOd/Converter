@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.antsiferov.converter.CalcActivity"
+    android:weightSum="1"
+    android:background="@color/main"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/first_radio_group_sum"
+                android:layout_gravity="center"
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/binary"
+                    android:id="@+id/first_binary_sum"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/octal"
+                    android:id="@+id/first_octal_sum"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/decimal"
+                    android:id="@+id/first_decimal_sum"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hexadecimal"
+                    android:id="@+id/first_hexadecimal_sum"
+                    android:checked="false" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="+"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvSignFirstNum"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="200dp"
+                    android:textAlignment="center"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:id="@+id/enter_first_num_sum" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/sum_button"
+            android:id="@+id/calc_sum" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/second_radio_group_sum"
+                android:layout_gravity="center"
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/binary"
+                    android:id="@+id/second_binary_sum"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/octal"
+                    android:id="@+id/second_octal_sum"
+                    android:checked="false" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/decimal"
+                    android:id="@+id/second_decimal_sum"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hexadecimal"
+                    android:id="@+id/second_hexadecimal_sum"
+                    android:checked="false" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="+"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvSignSecondNum"
+                    android:layout_weight="1" />
+
+                <EditText
+                    android:layout_width="200dp"
+                    android:textAlignment="center"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:id="@+id/enter_second_num_sum" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Результат"
+                android:id="@+id/show_result_sum" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

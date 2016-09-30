@@ -1,8 +1,10 @@
 package org.antsiferov.converter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,24 +52,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calc.setOnClickListener(this);
     }
 
-    public String capacity(int capacity, String str) {
-        String tmp = "", temp = "";
-        int size = str.length();
+    public String format_output(String str) {
+        String temp = "", revers = "";
 
-        for (int i = 0; i <= capacity; i++) {
-            if (i <= capacity - size) {
-                tmp += "0";
-            } else {
-                tmp += str.charAt(i - (capacity - size) - 1);
-            }
+        for (int i = str.length() - 1; i != -1; i--) {
+            revers += str.charAt(i);
         }
-        Log.d(TAG, "tmp = " + tmp);
-        for (int i = 0; i < tmp.length(); i++) {
-            temp += tmp.charAt(i);
-            if (i % 4 == 0 && i + 1 != tmp.length() - 1) {
-                Log.d(TAG, "(i + 1) % 4 = " + (i + 1) % 4);
+
+        for (int i = revers.length() - 1; i != -1; i--) {
+            if ((i + 1) % 4 == 0 && i != 0) {
                 temp += " ";
             }
+            temp += revers.charAt(i);
         }
 
         return temp;
@@ -76,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         String str = enter.getText().toString();
-        //int cap = Integer.parseInt(enter_capacity.getText().toString());
 
         if (first_binary.isChecked()) {
             BinaryNumberSystem bin_num = new BinaryNumberSystem(str);
@@ -94,15 +89,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 show.setText("ERROR");
             }
         } else if (first_octal.isChecked()) {
-            OctalNumberSystem oct = new OctalNumberSystem(str);
+            OctalNumberSystem oct_num = new OctalNumberSystem(str);
 
-            if (oct.isOctal()) {
+            if (oct_num.isOctal()) {
                 if (second_binary.isChecked()) {
-                    show.setText(oct.toBinary());
+                    show.setText(format_output(oct_num.toBinary()));
                 } else if (second_decimal.isChecked()) {
-                    show.setText(oct.toDecimal());
+                    show.setText(oct_num.toDecimal());
                 } else if (second_hexadecimal.isChecked()) {
-                    show.setText(oct.toHexadecimal());
+                    show.setText(oct_num.toHexadecimal());
                 }
             } else {
                 show.setText("ERROR");
@@ -115,8 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (second_octal.isChecked()) {
                     show.setText(dec_num.toOctal());
                 } else if (second_binary.isChecked()) {
-                    //Log.d(TAG, "str = " + capacity(cap, dec_num.toBinary()));
-                    show.setText(dec_num.toBinary());
+                    show.setText(format_output(dec_num.toBinary()));
                 } else if (second_hexadecimal.isChecked()) {
                     show.setText(dec_num.toHexadecimal());
                 }
@@ -129,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (hex_num.isHexadecimal()) {
                 if (second_binary.isChecked()) {
-                    show.setText(hex_num.toBinary());
+                    show.setText(format_output(hex_num.toBinary()));
                 } else if (second_octal.isChecked()) {
                     show.setText(hex_num.toOctal());
                 } else if (second_decimal.isChecked()) {
@@ -141,5 +135,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_calc:
+                Intent intent = new Intent(this, CalcActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_settings:
+                Toast.makeText(MainActivity.this, "Настройки", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

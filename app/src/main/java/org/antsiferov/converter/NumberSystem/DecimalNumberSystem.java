@@ -37,6 +37,22 @@ public class DecimalNumberSystem {
         return ok;
     }
 
+    static public boolean isDecimal(String dec_num) {
+        boolean ok = true;
+
+        if(!dec_num.isEmpty()) {
+            Pattern pattern = Pattern.compile("[0-9]+");
+            Matcher matcher = pattern.matcher(dec_num);
+            if (!matcher.matches()) {
+                ok = false;
+            }
+        } else {
+            ok = false;
+        }
+
+        return ok;
+    }
+
     public String toOctal() {
         if (isDecimal()) {
             int tmp = Integer.parseInt(num);
@@ -91,6 +107,34 @@ public class DecimalNumberSystem {
         }
     }
 
+
+     static public String toBinary(String dec_num) {
+         if (DecimalNumberSystem.isDecimal(dec_num)) {
+             int tmp = Integer.parseInt(dec_num);
+             String bin = "";
+             boolean flag = true;
+
+             while (flag) {
+                 bin += tmp % 2 + "";
+                 tmp /= 2;
+                 if (tmp < 2) {
+                     bin += tmp + "";
+                     String b = "";
+                     int size = bin.length() - 1;
+
+                     for (int i = size; i != -1; i--) {
+                         b += bin.charAt(i);
+                     }
+                     bin = b;
+                     flag = false;
+                 }
+             }
+             return bin;
+         } else {
+             return "";
+         }
+    }
+
     public String toHexadecimal() {
         if(isDecimal()) {
             Double tmp = Double.parseDouble(num);
@@ -100,5 +144,9 @@ public class DecimalNumberSystem {
         } else {
             return "";
         }
+    }
+
+    public String getNumber() {
+        return this.num;
     }
 }
