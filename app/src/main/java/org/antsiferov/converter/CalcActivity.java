@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.antsiferov.converter.NumberSystem.BinaryNumberSystem;
 import org.antsiferov.converter.NumberSystem.DecimalNumberSystem;
@@ -38,8 +37,6 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
     RadioButton first_binary, first_octal, first_decimal,
             first_hexadecimal, second_binary, second_octal,
             second_decimal, second_hexadecimal;
-
-    private String TAG = "myLogs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,58 +114,57 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         String strFirstNum = enter_first_num.getText().toString();
         String strSecondNum = enter_second_num.getText().toString();
-        Double firstNumDec = 0.0, secondNumDec = 0.0, result = 0.0;
+        int firstNumDec = 0, secondNumDec = 0, result;
 
         switch (rgFirst_radio_group.getCheckedRadioButtonId()) {
             case R.id.first_binary_sum:
                 BinaryNumberSystem bin_num = new BinaryNumberSystem(strFirstNum);
-                firstNumDec = Double.parseDouble(bin_num.toDecimal());
+                firstNumDec = Integer.parseInt(bin_num.toDecimal());
                 break;
             case R.id.first_octal_sum:
                 OctalNumberSystem oct_num = new OctalNumberSystem(strFirstNum);
-                firstNumDec = Double.parseDouble(oct_num.toDecimal());
+                firstNumDec = Integer.parseInt(oct_num.toDecimal());
                 break;
             case R.id.first_decimal_sum:
                 DecimalNumberSystem dec_num = new DecimalNumberSystem(strFirstNum);
-                firstNumDec = Double.parseDouble(dec_num.getNumber());
+                firstNumDec = Integer.parseInt(dec_num.getNumber());
                 break;
             case R.id.first_hexadecimal_sum:
                 HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strFirstNum);
-                firstNumDec = Double.parseDouble(hex_num.toDecimal());
+                firstNumDec = Integer.parseInt(hex_num.toDecimal());
                 break;
         }
 
         switch (rgSecond_radio_group.getCheckedRadioButtonId()) {
             case R.id.second_binary_sum:
                 BinaryNumberSystem bin_num = new BinaryNumberSystem(strSecondNum);
-                secondNumDec = Double.parseDouble(bin_num.toDecimal());
+                secondNumDec = Integer.parseInt(bin_num.toDecimal());
                 break;
             case R.id.second_octal_sum:
                 OctalNumberSystem oct_num = new OctalNumberSystem(strSecondNum);
-                secondNumDec = Double.parseDouble(oct_num.toDecimal());
+                secondNumDec = Integer.parseInt(oct_num.toDecimal());
                 break;
             case R.id.second_decimal_sum:
                 DecimalNumberSystem dec_num = new DecimalNumberSystem(strSecondNum);
-                secondNumDec = Double.parseDouble(dec_num.getNumber());
+                secondNumDec = Integer.parseInt(dec_num.getNumber());
                 break;
             case R.id.second_hexadecimal_sum:
                 HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strSecondNum);
-                secondNumDec = Double.parseDouble(hex_num.toDecimal());
+                secondNumDec = Integer.parseInt(hex_num.toDecimal());
                 break;
 
         }
 
-        if (signFirstNum == "-") {
+        if (signFirstNum.equals("-")) {
             firstNumDec *= -1;
         }
 
-        if (signSecondNum == "-") {
+        if (signSecondNum.equals("-")) {
             secondNumDec *= -1;
         }
 
         result = firstNumDec + secondNumDec;
 
-        tvShow.setText("2: " + DecimalNumberSystem.toBinary(Double.toString(result) + "\n"
-                        + "10: " + result));
+        tvShow.setText(result);
     }
 }

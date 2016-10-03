@@ -12,45 +12,42 @@ import java.util.regex.Pattern;
 public class DecimalNumberSystem {
     private String num;
     private int number_system = 10;
+    private String TAG = "myLogs";
 
-    public DecimalNumberSystem(String str) {
-        num = str;
+    public DecimalNumberSystem(String num_str) {
+        this.num = num_str;
     }
 
     public DecimalNumberSystem() {
-        num = "";
+        this.num = "";
     }
 
     public boolean isDecimal() {
-        boolean ok = true;
-
         if(!num.isEmpty()) {
             Pattern pattern = Pattern.compile("[0-9]+");
             Matcher matcher = pattern.matcher(num);
             if (!matcher.matches()) {
-                ok = false;
+                return false;
             }
         } else {
-            ok = false;
+            return false;
         }
 
-        return ok;
+        return true;
     }
 
     static public boolean isDecimal(String dec_num) {
-        boolean ok = true;
-
         if(!dec_num.isEmpty()) {
             Pattern pattern = Pattern.compile("[0-9]+");
             Matcher matcher = pattern.matcher(dec_num);
             if (!matcher.matches()) {
-                ok = false;
+                return false;
             }
         } else {
-            ok = false;
+            return false;
         }
 
-        return ok;
+        return true;
     }
 
     public String toOctal() {
@@ -137,10 +134,22 @@ public class DecimalNumberSystem {
 
     public String toHexadecimal() {
         if(isDecimal()) {
-            Double tmp = Double.parseDouble(num);
-            String hex_numbers = "0123456789ABCDEF";
-            String octal = ((int)(tmp / 16) + "" + hex_numbers.charAt((int)(tmp % 16)) + "");
-            return octal;
+            int dec_num = Integer.parseInt(num);
+            String hex_numbers = "0123456789ABCDEF", hexNum = "", inverseHexNum = "";
+
+            while (true) {
+                hexNum += hex_numbers.charAt(dec_num % 16);
+                dec_num /= 16;
+                if (dec_num < 16) {
+                    hexNum += dec_num;
+                    for (int i = hexNum.length() - 1; i != -1; i--) {
+                        inverseHexNum += hexNum.charAt(i);
+                    }
+                    break;
+                }
+            }
+
+            return inverseHexNum;
         } else {
             return "";
         }
