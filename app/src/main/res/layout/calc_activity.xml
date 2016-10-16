@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context="org.antsiferov.converter.CalcActivity"
     android:weightSum="1"
-    android:background="@color/main"
     android:orientation="vertical">
 
     <LinearLayout

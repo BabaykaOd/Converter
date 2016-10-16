@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.antsiferov.converter.NumberSystem.BinaryNumberSystem;
 import org.antsiferov.converter.NumberSystem.DecimalNumberSystem;
@@ -112,59 +113,68 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        String strFirstNum = enter_first_num.getText().toString();
-        String strSecondNum = enter_second_num.getText().toString();
-        int firstNumDec = 0, secondNumDec = 0, result;
+        if (!enter_first_num.getText().toString().isEmpty() &&
+                !enter_second_num.getText().toString().isEmpty()) {
 
-        switch (rgFirst_radio_group.getCheckedRadioButtonId()) {
-            case R.id.first_binary_sum:
-                BinaryNumberSystem bin_num = new BinaryNumberSystem(strFirstNum);
-                firstNumDec = Integer.parseInt(bin_num.toDecimal());
-                break;
-            case R.id.first_octal_sum:
-                OctalNumberSystem oct_num = new OctalNumberSystem(strFirstNum);
-                firstNumDec = Integer.parseInt(oct_num.toDecimal());
-                break;
-            case R.id.first_decimal_sum:
-                DecimalNumberSystem dec_num = new DecimalNumberSystem(strFirstNum);
-                firstNumDec = Integer.parseInt(dec_num.getNumber());
-                break;
-            case R.id.first_hexadecimal_sum:
-                HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strFirstNum);
-                firstNumDec = Integer.parseInt(hex_num.toDecimal());
-                break;
+            String strFirstNum = enter_first_num.getText().toString();
+            String strSecondNum = enter_second_num.getText().toString();
+            String result = "";
+            int firstNumDec = 0, secondNumDec = 0;
+
+            if (signFirstNum.equals("-")) {
+                firstNumDec *= -1;
+            }
+
+            if (signSecondNum.equals("-")) {
+                secondNumDec *= -1;
+            }
+
+            switch (rgFirst_radio_group.getCheckedRadioButtonId()) {
+                case R.id.first_binary_sum:
+                    BinaryNumberSystem bin_num = new BinaryNumberSystem(strFirstNum);
+                    firstNumDec = Integer.parseInt(bin_num.toDecimal());
+                    break;
+                case R.id.first_octal_sum:
+                    OctalNumberSystem oct_num = new OctalNumberSystem(strFirstNum);
+                    firstNumDec = Integer.parseInt(oct_num.toDecimal());
+                    break;
+                case R.id.first_decimal_sum:
+                    DecimalNumberSystem dec_num = new DecimalNumberSystem(strFirstNum);
+                    firstNumDec = Integer.parseInt(dec_num.getNumber());
+                    break;
+                case R.id.first_hexadecimal_sum:
+                    HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strFirstNum);
+                    firstNumDec = Integer.parseInt(hex_num.toDecimal());
+                    break;
+            }
+
+            switch (rgSecond_radio_group.getCheckedRadioButtonId()) {
+                case R.id.second_binary_sum:
+                    BinaryNumberSystem bin_num = new BinaryNumberSystem(strSecondNum);
+                    secondNumDec = Integer.parseInt(bin_num.toDecimal());
+                    result = DecimalNumberSystem.toBinary((firstNumDec + secondNumDec) + "");
+                    break;
+                case R.id.second_octal_sum:
+                    OctalNumberSystem oct_num = new OctalNumberSystem(strSecondNum);
+                    secondNumDec = Integer.parseInt(oct_num.toDecimal());
+                    result = DecimalNumberSystem.toOctal((firstNumDec + secondNumDec) + "");
+                    break;
+                case R.id.second_decimal_sum:
+                    DecimalNumberSystem dec_num = new DecimalNumberSystem(strSecondNum);
+                    secondNumDec = Integer.parseInt(dec_num.getNumber());
+                    result = (firstNumDec + secondNumDec) + "";
+                    break;
+                case R.id.second_hexadecimal_sum:
+                    HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strSecondNum);
+                    secondNumDec = Integer.parseInt(hex_num.toDecimal());
+                    result = DecimalNumberSystem.toHexadecimal((firstNumDec + secondNumDec) + "");
+                    break;
+
+            }
+
+            tvShow.setText(result);
+        } else {
+            Toast.makeText(CalcActivity.this, "Неверный ввод, заполните все поля.", Toast.LENGTH_LONG).show();
         }
-
-        switch (rgSecond_radio_group.getCheckedRadioButtonId()) {
-            case R.id.second_binary_sum:
-                BinaryNumberSystem bin_num = new BinaryNumberSystem(strSecondNum);
-                secondNumDec = Integer.parseInt(bin_num.toDecimal());
-                break;
-            case R.id.second_octal_sum:
-                OctalNumberSystem oct_num = new OctalNumberSystem(strSecondNum);
-                secondNumDec = Integer.parseInt(oct_num.toDecimal());
-                break;
-            case R.id.second_decimal_sum:
-                DecimalNumberSystem dec_num = new DecimalNumberSystem(strSecondNum);
-                secondNumDec = Integer.parseInt(dec_num.getNumber());
-                break;
-            case R.id.second_hexadecimal_sum:
-                HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strSecondNum);
-                secondNumDec = Integer.parseInt(hex_num.toDecimal());
-                break;
-
-        }
-
-        if (signFirstNum.equals("-")) {
-            firstNumDec *= -1;
-        }
-
-        if (signSecondNum.equals("-")) {
-            secondNumDec *= -1;
-        }
-
-        result = firstNumDec + secondNumDec;
-
-        tvShow.setText(result);
     }
 }

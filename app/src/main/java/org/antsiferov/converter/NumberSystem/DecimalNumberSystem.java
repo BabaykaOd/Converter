@@ -77,6 +77,33 @@ public class DecimalNumberSystem {
         }
     }
 
+    static public String toOctal(String number) {
+        if (DecimalNumberSystem.isDecimal(number)) {
+            int tmp = Integer.parseInt(number);
+            String oct = "";
+            boolean flag = true;
+
+            while (flag) {
+                oct += tmp % 8 + "";
+                tmp /= 8;
+                if (tmp < 8) {
+                    oct += tmp + "";
+                    String b = "";
+                    int size = oct.length() - 1;
+
+                    for (int i = size; i != -1; i--) {
+                        b += oct.charAt(i);
+                    }
+                    oct = b;
+                    flag = false;
+                }
+            }
+            return oct;
+        } else {
+            return "";
+        }
+    }
+
     public String toBinary() {
         if (isDecimal()) {
             int tmp = Integer.parseInt(num);
@@ -105,31 +132,31 @@ public class DecimalNumberSystem {
     }
 
 
-     static public String toBinary(String dec_num) {
-         if (DecimalNumberSystem.isDecimal(dec_num)) {
-             int tmp = Integer.parseInt(dec_num);
-             String bin = "";
-             boolean flag = true;
+    static public String toBinary(String dec_num) {
+        if (DecimalNumberSystem.isDecimal(dec_num)) {
+            int tmp = Integer.parseInt(dec_num);
+            String bin = "";
+            boolean flag = true;
 
-             while (flag) {
-                 bin += tmp % 2 + "";
-                 tmp /= 2;
-                 if (tmp < 2) {
-                     bin += tmp + "";
-                     String b = "";
-                     int size = bin.length() - 1;
+            while (flag) {
+                bin += tmp % 2 + "";
+                tmp /= 2;
+                if (tmp < 2) {
+                    bin += tmp + "";
+                    String b = "";
+                    int size = bin.length() - 1;
 
-                     for (int i = size; i != -1; i--) {
-                         b += bin.charAt(i);
-                     }
-                     bin = b;
-                     flag = false;
-                 }
-             }
-             return bin;
-         } else {
-             return "";
-         }
+                    for (int i = size; i != -1; i--) {
+                        b += bin.charAt(i);
+                    }
+                    bin = b;
+                    flag = false;
+                }
+            }
+            return bin;
+        } else {
+            return "";
+        }
     }
 
     public String toHexadecimal() {
@@ -141,7 +168,30 @@ public class DecimalNumberSystem {
                 hexNum += hex_numbers.charAt(dec_num % 16);
                 dec_num /= 16;
                 if (dec_num < 16) {
-                    hexNum += dec_num;
+                    hexNum += hex_numbers.charAt(dec_num);
+                    for (int i = hexNum.length() - 1; i != -1; i--) {
+                        inverseHexNum += hexNum.charAt(i);
+                    }
+                    break;
+                }
+            }
+
+            return inverseHexNum;
+        } else {
+            return "";
+        }
+    }
+
+    static public String toHexadecimal(String number) {
+        if(DecimalNumberSystem.isDecimal(number)) {
+            String hex_numbers = "0123456789ABCDEF", hexNum = "", inverseHexNum = "";
+            int dec_num = Integer.parseInt(number);
+
+            while (true) {
+                hexNum += hex_numbers.charAt(dec_num % 16);
+                dec_num /= 16;
+                if (dec_num < 16) {
+                    hexNum += hex_numbers.charAt(dec_num);
                     for (int i = hexNum.length() - 1; i != -1; i--) {
                         inverseHexNum += hexNum.charAt(i);
                     }

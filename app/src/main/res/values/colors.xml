@@ -6,4 +6,5 @@
     <color name="main">#95CF95</color>
     <color name="enter">#80CF80</color>
     <color name="red">#4fde4c</color>
+    <color name="black">#000000</color>
 </resources>

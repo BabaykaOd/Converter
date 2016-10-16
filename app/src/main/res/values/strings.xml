@@ -8,4 +8,7 @@
     <string name="sum_button">Суммировать</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_calc">Калькулятор</string>
+    <string name="setting_red">Красный</string>
+    <string name="setting_green">Зеленый</string>
+    <string name="setting_blue">Синий</string>
 </resources>
