@@ -25,12 +25,29 @@
             android:layout_height="20dp"
             android:id="@+id/tvRed" />
 
-        <SeekBar
-            android:layout_width="235dp"
-            android:max="255"
-            android:progress="0"
-            android:layout_height="wrap_content"
-            android:id="@+id/sbRed" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="255"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:id="@+id/tvRedShowColor"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:layout_width="235dp"
+                android:max="255"
+                android:progress="255"
+                android:layout_height="wrap_content"
+                android:id="@+id/sbRed"
+                android:layout_weight="1" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -49,12 +66,29 @@
             android:layout_height="20dp"
             android:id="@+id/tvGreen" />
 
-        <SeekBar
-            android:layout_width="235dp"
-            android:max="255"
-            android:progress="0"
-            android:layout_height="wrap_content"
-            android:id="@+id/sbGreen" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="255"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:id="@+id/tvGreenShowColor"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:layout_width="235dp"
+                android:max="255"
+                android:progress="255"
+                android:layout_height="wrap_content"
+                android:id="@+id/sbGreen"
+                android:layout_weight="1" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -72,11 +106,38 @@
             android:layout_height="20dp"
             android:id="@+id/tvBlue" />
 
-        <SeekBar
-            android:layout_width="235dp"
-            android:max="255"
-            android:progress="0"
-            android:layout_height="wrap_content"
-            android:id="@+id/sbBlue" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="255"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:id="@+id/tvBlueShowColor"
+                android:layout_weight="1" />
+
+            <SeekBar
+                android:layout_width="235dp"
+                android:max="255"
+                android:progress="255"
+                android:layout_height="wrap_content"
+                android:id="@+id/sbBlue"
+                android:layout_weight="1" />
+        </LinearLayout>
+
     </LinearLayout>
+
+    <TextView
+        android:text="#FFFFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:id="@+id/tvMainColorShow" />
 </LinearLayout>

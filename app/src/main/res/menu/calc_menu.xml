@@ -7,9 +7,9 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/menu_calc"
+        android:id="@+id/menu_main"
         android:orderInCategory="100"
-        android:title="@string/menu_calc"
+        android:title="@string/menu_main"
         app:showAsAction="never"/>
 
     <item

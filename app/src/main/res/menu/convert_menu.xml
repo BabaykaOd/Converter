@@ -7,15 +7,15 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/menu_main"
+        android:orderInCategory="100"
+        android:title="@string/menu_main" />
+
+    <item
         android:id="@+id/menu_calc"
         android:orderInCategory="100"
         android:title="@string/menu_calc"
         app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/menu_bin_converter"
-        android:orderInCategory="100"
-        android:title="@string/menu_bin_converter" />
 
     <item
         android:id="@+id/menu_settings"

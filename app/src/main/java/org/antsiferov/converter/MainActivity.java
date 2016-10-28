@@ -28,23 +28,21 @@ import org.antsiferov.converter.NumberSystem.DecimalNumberSystem;
 import org.antsiferov.converter.NumberSystem.HexadecimalNumberSystem;
 import org.antsiferov.converter.NumberSystem.OctalNumberSystem;
 
+import static org.antsiferov.converter.SettingsActivity.APP_PREFERENCES;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button calc;
-    EditText enter, enter_capacity;
+    EditText enter;
     TextView show;
     RadioGroup first_radio_group, second_radio_group;
     RadioButton first_binary, first_octal, first_decimal,
             first_hexadecimal, second_binary, second_octal,
             second_decimal, second_hexadecimal;
     LinearLayout MainLayout;
-
     SharedPreferences Settings;
 
-    public static final String APP_PREFERENCES = "ConverterSettings";
-    public static final String APP_PREFERENCES_COLOR = "ColorMain";
     private String TAG = "myLogs";
-
     private GoogleApiClient client;
 
     @Override
@@ -54,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         calc = (Button) findViewById(R.id.calc);
         enter = (EditText) findViewById(R.id.enter_num);
-        enter_capacity = (EditText) findViewById(R.id.enter_capacity);
         show = (TextView) findViewById(R.id.show_result);
         first_radio_group = (RadioGroup) findViewById(R.id.first_radio_group);
         second_radio_group = (RadioGroup) findViewById(R.id.second_radio_group);
@@ -68,12 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         second_hexadecimal = (RadioButton) findViewById(R.id.second_hexadecimal);
         MainLayout = (LinearLayout) findViewById(R.id.MainLayout);
 
-        Settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-
-        if (Settings.getInt(MainActivity.APP_PREFERENCES_COLOR, 0) != 0) {
-            int color = Settings.getInt(MainActivity.APP_PREFERENCES_COLOR, 0);
-            MainLayout.setBackgroundColor(color);
-        }
+        Settings = getSharedPreferences(SettingsActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
 
         calc.setOnClickListener(this);
 
@@ -165,6 +157,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void changeBackgroundColor() {
+        if (Settings.getInt(SettingsActivity.APP_SETTINGS_RED_COLOR, 0) != 0) {
+            int red = Settings.getInt(SettingsActivity.APP_SETTINGS_RED_COLOR, 0);
+            int green = Settings.getInt(SettingsActivity.APP_SETTINGS_GREEN_COLOR, 0);
+            int blue = Settings.getInt(SettingsActivity.APP_SETTINGS_BLUE_COLOR, 0);
+
+            SettingsActivity.updateBackground(MainLayout, red, green, blue);
+        } else {
+            SettingsActivity.updateBackground(MainLayout, 255, 255, 255);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -175,14 +179,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_calc:
-                Intent intent = new Intent(this, CalcActivity.class);
-                startActivity(intent);
+                Intent intentCalcActivity = new Intent(this, CalcActivity.class);
+                startActivity(intentCalcActivity);
+                break;
+            case R.id.menu_bin_converter:
+                Intent intentConverterActivity = new Intent(this, ConvertBinaryActivity.class);
+                startActivity(intentConverterActivity);
                 break;
             case R.id.menu_settings:
-                Intent intent_setting = new Intent(this, SettingsActivity.class);
-                startActivity(intent_setting);
+                Intent intentSettingActivity = new Intent(this, SettingsActivity.class);
+                startActivity(intentSettingActivity);
                 break;
         }
+
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -226,11 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        Settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-
-        if (Settings.getInt(MainActivity.APP_PREFERENCES_COLOR, 0) != 0) {
-            int color = Settings.getInt(MainActivity.APP_PREFERENCES_COLOR, 0);
-            MainLayout.setBackgroundColor(color);
-        }
+        changeBackgroundColor();
     }
 }

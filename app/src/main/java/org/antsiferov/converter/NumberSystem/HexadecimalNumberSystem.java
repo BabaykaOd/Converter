@@ -36,6 +36,22 @@ public class HexadecimalNumberSystem {
         return ok;
     }
 
+    static public boolean isHexadecimal(String num) {
+        boolean ok = true;
+
+        if(!num.isEmpty()) {
+            Pattern pattern = Pattern.compile("[0-9A-F]+");
+            Matcher matcher = pattern.matcher(num);
+            if (!matcher.matches()) {
+                ok = false;
+            }
+        } else {
+            ok = false;
+        }
+
+        return ok;
+    }
+
     public String toBinary() {
         if (isHexadecimal()) {
             DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal());

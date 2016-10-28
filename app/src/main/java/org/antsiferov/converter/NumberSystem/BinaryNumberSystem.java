@@ -65,4 +65,22 @@ public class BinaryNumberSystem {
 
         return ok;
     }
+
+    static public boolean isBinary(String number) {
+        boolean ok = true;
+        int size = number.length();
+
+        if(!number.isEmpty()) {
+            for (int i = 0; i < size; i++) {
+                if (number.charAt(i) != '0' && number.charAt(i) != '1') {
+                    ok = false;
+                    break;
+                }
+            }
+        } else {
+            ok = false;
+        }
+
+        return ok;
+    }
 }

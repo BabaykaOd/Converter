@@ -8,7 +8,13 @@
     <string name="sum_button">Суммировать</string>
     <string name="menu_settings">Настройки</string>
     <string name="menu_calc">Калькулятор</string>
+    <string name="menu_main">Конвертор</string>
+    <string name="menu_bin_converter">Кодирование чисел</string>
     <string name="setting_red">Красный</string>
     <string name="setting_green">Зеленый</string>
     <string name="setting_blue">Синий</string>
+    <string name="enterBinaryNumber">Введите двоичное число</string>
+    <string name="btnConvert">Перевести</string>
+    <string name="inverseCode">Обратный код</string>
+    <string name="additionalCode">Дополнительный код</string>
 </resources>

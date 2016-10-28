@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -19,8 +20,14 @@ import org.antsiferov.converter.NumberSystem.DecimalNumberSystem;
 
 public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    int hexColorRed, hexColorGreen, hexColorBlue, color;
+    public static  final String APP_SETTINGS_RED_COLOR = "redColor";
+    public static  final String APP_SETTINGS_GREEN_COLOR = "greenColor";
+    public static  final String APP_SETTINGS_BLUE_COLOR = "blueColor";
+    public static final String APP_PREFERENCES = "ConverterSettings";
+
+    int hexColorRed, hexColorGreen, hexColorBlue;
     SeekBar sbRed, sbGreen, sbBlue;
+    TextView tvRedShowColor, tvGreenShowColor, tvBlueShowColor, tvMainColorShow;
     LinearLayout layout_settings;
 
     SharedPreferences Settings;
@@ -36,21 +43,71 @@ public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSee
         sbGreen = (SeekBar) findViewById(R.id.sbGreen);
         sbBlue = (SeekBar) findViewById(R.id.sbBlue);
         layout_settings = (LinearLayout) findViewById(R.id.layout_settings);
-        //updateBackground();
+        tvRedShowColor = (TextView)findViewById(R.id.tvRedShowColor);
+        tvGreenShowColor = (TextView)findViewById(R.id.tvGreenShowColor);
+        tvBlueShowColor = (TextView)findViewById(R.id.tvBlueShowColor);
+        tvMainColorShow = (TextView)findViewById(R.id.tvMainColorShow);
 
-        Settings = getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
+        Settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         sbRed.setOnSeekBarChangeListener(this);
         sbGreen.setOnSeekBarChangeListener(this);
         sbBlue.setOnSeekBarChangeListener(this);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+
+        changeBackgroundColor(layout_settings);
+
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    public static void updateBackground(LinearLayout layout, int red, int green, int blue) {
+        layout.setBackgroundColor(RGBConvert(red, green, blue));
+    }
+
+    public static int RGBConvert(int redColor, int greenColor, int blueColor) {
+        return 0xff000000 + redColor * 0x10000 + greenColor * 0x100 + blueColor;
+    }
+
+    public void changeBackgroundColor(LinearLayout layout) {
+        Settings = getSharedPreferences(SettingsActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
+
+        if (Settings.getInt(APP_SETTINGS_RED_COLOR, 0) != 0) {
+            int red = Settings.getInt(APP_SETTINGS_RED_COLOR, 0);
+            int green = Settings.getInt(APP_SETTINGS_GREEN_COLOR, 0);
+            int blue = Settings.getInt(APP_SETTINGS_BLUE_COLOR, 0);
+
+            sbRed.setProgress(red);
+            sbGreen.setProgress(green);
+            sbBlue.setProgress(blue);
+
+            updateBackground(layout, red, green, blue);
+        } else {
+            updateBackground(layout, 255, 255, 255);
+        }
+    }
+
+    private String convertToHexColor(int red, int green, int blue) {
+        String color = "#FF";
+
+        color += DecimalNumberSystem.toHexadecimal(red + "");
+        color += DecimalNumberSystem.toHexadecimal(green + "");
+        color += DecimalNumberSystem.toHexadecimal(blue + "");
+
+        return color;
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        updateBackground();
+        hexColorRed = sbRed.getProgress();
+        hexColorGreen = sbGreen.getProgress();
+        hexColorBlue = sbBlue.getProgress();
+
+        tvRedShowColor.setText(hexColorRed + "");
+        tvGreenShowColor.setText(hexColorGreen + "");
+        tvBlueShowColor.setText(hexColorBlue + "");
+
+        tvMainColorShow.setText(convertToHexColor(hexColorRed, hexColorGreen, hexColorBlue));
+
+        updateBackground(layout_settings, hexColorRed, hexColorGreen, hexColorBlue);
     }
 
     @Override
@@ -61,17 +118,6 @@ public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSee
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
-    }
-
-    private void updateBackground() {
-        hexColorRed = sbRed.getProgress();
-        hexColorGreen = sbGreen.getProgress();
-        hexColorBlue = sbBlue.getProgress();
-
-        color = 0xff000000 + hexColorRed * 0x10000 + hexColorGreen * 0x100
-                + hexColorBlue;
-
-        layout_settings.setBackgroundColor(color);
     }
 
     public Action getIndexApiAction() {
@@ -90,15 +136,8 @@ public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSee
     public void onStart() {
         super.onStart();
 
-        Settings = getSharedPreferences(MainActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
+        changeBackgroundColor(layout_settings);
 
-        if (Settings.getInt(MainActivity.APP_PREFERENCES_COLOR, 0) != 0) {
-            int color = Settings.getInt(MainActivity.APP_PREFERENCES_COLOR, 0);
-            layout_settings.setBackgroundColor(color);
-        }
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
@@ -108,11 +147,11 @@ public class SettingsActivity extends AppCompatActivity implements SeekBar.OnSee
         super.onStop();
 
         SharedPreferences.Editor ed = Settings.edit();
-        ed.putInt(MainActivity.APP_PREFERENCES_COLOR, color);
+        ed.putInt(APP_SETTINGS_RED_COLOR, hexColorRed);
+        ed.putInt(APP_SETTINGS_GREEN_COLOR, hexColorGreen);
+        ed.putInt(APP_SETTINGS_BLUE_COLOR, hexColorBlue);
         ed.apply();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
