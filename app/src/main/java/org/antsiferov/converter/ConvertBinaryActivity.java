@@ -5,19 +5,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.antsiferov.converter.NumberSystem.BinaryNumberSystem;
+
 public class ConvertBinaryActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvAdditionalCodeShow, tvInverseCodeShow;
+    Button convertCode;
     EditText etEnterBinaryNumber;
     SharedPreferences Settings;
     LinearLayout ConvertLayout;
+    private String TAG = "myLogs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,9 @@ public class ConvertBinaryActivity extends AppCompatActivity implements View.OnC
         tvInverseCodeShow = (TextView)findViewById(R.id.tvInverseCodeShow);
         etEnterBinaryNumber = (EditText)findViewById(R.id.etEnterBinaryNumber);
         ConvertLayout = (LinearLayout) findViewById(R.id.convert_binary_activity);
+        convertCode = (Button)findViewById(R.id.convertCode);
+
+        convertCode.setOnClickListener(this);
 
         Settings = getSharedPreferences(SettingsActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
     }
@@ -46,7 +55,14 @@ public class ConvertBinaryActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
+        if (!etEnterBinaryNumber.getText().toString().isEmpty()) {
+            BinaryNumberSystem binNum = new BinaryNumberSystem(etEnterBinaryNumber.getText().toString());
 
+            if (binNum.checkingForComplianceWithANumberSystem()) {
+                tvInverseCodeShow.setText(binNum.conversionToInversionCode());
+                tvAdditionalCodeShow.setText(binNum.conversionToAdditionalCode());
+            }
+        }
     }
 
     @Override

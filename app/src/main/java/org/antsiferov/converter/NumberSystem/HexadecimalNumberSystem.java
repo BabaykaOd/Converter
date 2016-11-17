@@ -1,5 +1,7 @@
 package org.antsiferov.converter.NumberSystem;
 
+import android.util.Log;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,90 +9,76 @@ import java.util.regex.Pattern;
  * Created by Бабайка on 24.09.2016.
  */
 
-public class HexadecimalNumberSystem {
-    private String num;
-    private int number_system = 16;
-    public static final String Hexadecimal = "0123456789ABCDEF";
+public class HexadecimalNumberSystem extends NumberSystem {
+    static private String staticRegExp = "[0-9A-F]+([.]?[0-9A-F]+)?";
 
-    public HexadecimalNumberSystem(String num) {
-        this.num = num;
+    public HexadecimalNumberSystem(String num_str) {
+        super(num_str);
+        super.numberSystem = "15";
     }
 
     public HexadecimalNumberSystem() {
-        this.num = "";
+        super("");
+        super.numberSystem = "15";
     }
 
-    public boolean isHexadecimal() {
-        boolean ok = true;
-
-        if(!num.isEmpty()) {
-            Pattern pattern = Pattern.compile("[0-9A-F]+");
-            Matcher matcher = pattern.matcher(num);
+    static public boolean checkingForComplianceWithANumberSystem(String number) {
+        if (!number.isEmpty()) {
+            Pattern pattern = Pattern.compile(staticRegExp);
+            Matcher matcher = pattern.matcher(number);
             if (!matcher.matches()) {
-                ok = false;
+                return false;
             }
         } else {
-            ok = false;
+            return false;
         }
 
-        return ok;
+        return true;
     }
 
-    static public boolean isHexadecimal(String num) {
-        boolean ok = true;
-
-        if(!num.isEmpty()) {
-            Pattern pattern = Pattern.compile("[0-9A-F]+");
-            Matcher matcher = pattern.matcher(num);
+    public boolean checkingForComplianceWithANumberSystem() {
+        if (!number.isEmpty()) {
+            Pattern pattern = Pattern.compile(staticRegExp);
+            Matcher matcher = pattern.matcher(number);
             if (!matcher.matches()) {
-                ok = false;
+                return false;
             }
         } else {
-            ok = false;
+            return false;
         }
 
-        return ok;
+        return true;
     }
 
-    public String toBinary() {
-        if (isHexadecimal()) {
-            DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal());
-            return dec.toBinary();
-        } else {
-            return "";
-        }
+    @Override
+    public BinaryNumberSystem toBinary() {
+        DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal().toString());
+        return dec.toBinary();
     }
 
-    public String toOctal() {
-        if (isHexadecimal()) {
-            DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal());
-            return dec.toOctal();
-        } else {
-            return "";
-        }
+    @Override
+    public OctalNumberSystem toOctal() {
+        DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal().toString());
+        return dec.toOctal();
     }
 
-    public String toDecimal() {
-        if (isHexadecimal()) {
-            double temp = 0.0;
-            int number = 0;
-            int size = num.length() - 1;
+    @Override
+    public DecimalNumberSystem toDecimal() {
+        double temp = 0.0;
+        int number = 0;
+        int size = this.number.length() - 1;
 
-            for (int i = size; i > -1; i--) {
-                if (((double)(num.charAt(size - i))) < 9) {
-                    number = (int)num.charAt(size - i);
-                } else {
-                    for (int j = 0; j < Hexadecimal.length(); j++) {
-                        if (Hexadecimal.charAt(j) == num.charAt(size - i)) {
-                            number = j;
-                        }
-                    }
+
+        for (int i = size; i > -1; i--) {
+            for (int j = 0; j < hexadecimalNumbers.length(); j++) {
+                if (hexadecimalNumbers.charAt(j) == this.number.charAt(size - i)) {
+                    number = j;
                 }
-                temp += (Math.pow(number_system, i) * number);
             }
-            return Integer.toString((int)temp);
-        } else {
-            return "";
+
+            temp += (Math.pow(16, i) * number);
         }
+
+        return new DecimalNumberSystem(Integer.toString((int)temp));
     }
 }

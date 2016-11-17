@@ -108,37 +108,37 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
             String strFirstNum = enter_first_num.getText().toString();
             String strSecondNum = enter_second_num.getText().toString();
             String result = "";
-            int firstNumDec = 0, secondNumDec = 0;
+            int firstNumDec = 0, secondNumDec;
 
             switch (rgFirst_radio_group.getCheckedRadioButtonId()) {
                 case R.id.first_binary_sum:
-                    if (BinaryNumberSystem.isBinary(strFirstNum)) {
+                    if (BinaryNumberSystem.checkingForComplianceWithANumberSystem(strFirstNum)) {
                         BinaryNumberSystem bin_num = new BinaryNumberSystem(strFirstNum);
-                        firstNumDec = Integer.parseInt(bin_num.toDecimal());
+                        firstNumDec = Integer.parseInt(bin_num.toDecimal().toString());
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
                     break;
                 case R.id.first_octal_sum:
-                    if (OctalNumberSystem.isOctal(strFirstNum)) {
+                    if (OctalNumberSystem.checkingForComplianceWithANumberSystem(strFirstNum)) {
                         OctalNumberSystem oct_num = new OctalNumberSystem(strFirstNum);
-                        firstNumDec = Integer.parseInt(oct_num.toDecimal());
+                        firstNumDec = Integer.parseInt(oct_num.toDecimal().toString());
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
                     break;
                 case R.id.first_decimal_sum:
-                    if (DecimalNumberSystem.isDecimal(strFirstNum)) {
+                    if (DecimalNumberSystem.checkingForComplianceWithANumberSystem(strFirstNum)) {
                         DecimalNumberSystem dec_num = new DecimalNumberSystem(strFirstNum);
-                        firstNumDec = Integer.parseInt(dec_num.getNumber());
+                        firstNumDec = Integer.parseInt(dec_num.toString());
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
                     break;
                 case R.id.first_hexadecimal_sum:
-                    if (HexadecimalNumberSystem.isHexadecimal(strFirstNum)) {
+                    if (HexadecimalNumberSystem.checkingForComplianceWithANumberSystem(strFirstNum)) {
                         HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strFirstNum);
-                        firstNumDec = Integer.parseInt(hex_num.toDecimal());
+                        firstNumDec = Integer.parseInt(hex_num.toDecimal().toString());
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
@@ -151,9 +151,9 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
 
             switch (rgSecond_radio_group.getCheckedRadioButtonId()) {
                 case R.id.second_binary_sum:
-                    if (BinaryNumberSystem.isBinary(strSecondNum)) {
+                    if (BinaryNumberSystem.checkingForComplianceWithANumberSystem(strSecondNum)) {
                         BinaryNumberSystem bin_num = new BinaryNumberSystem(strSecondNum);
-                        secondNumDec = Integer.parseInt(bin_num.toDecimal());
+                        secondNumDec = Integer.parseInt(bin_num.toDecimal().toString());
                         if (signSecondNum.equals("-")) {
                             secondNumDec *= -1;
                         }
@@ -164,9 +164,9 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
                 case R.id.second_octal_sum:
-                    if (OctalNumberSystem.isOctal(strSecondNum)) {
+                    if (OctalNumberSystem.checkingForComplianceWithANumberSystem(strSecondNum)) {
                         OctalNumberSystem oct_num = new OctalNumberSystem(strSecondNum);
-                        secondNumDec = Integer.parseInt(oct_num.toDecimal());
+                        secondNumDec = Integer.parseInt(oct_num.toDecimal().toString());
                         if (signSecondNum.equals("-")) {
                             secondNumDec *= -1;
                         }
@@ -177,9 +177,9 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
                 case R.id.second_decimal_sum:
-                    if (DecimalNumberSystem.isDecimal(strSecondNum)) {
+                    if (DecimalNumberSystem.checkingForComplianceWithANumberSystem(strSecondNum)) {
                         DecimalNumberSystem dec_num = new DecimalNumberSystem(strSecondNum);
-                        secondNumDec = Integer.parseInt(dec_num.getNumber());
+                        secondNumDec = Integer.parseInt(dec_num.toString());
                         if (signSecondNum.equals("-")) {
                             secondNumDec *= -1;
                         }
@@ -190,13 +190,13 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     break;
                 case R.id.second_hexadecimal_sum:
-                    if (HexadecimalNumberSystem.isHexadecimal(strSecondNum)) {
+                    if (HexadecimalNumberSystem.checkingForComplianceWithANumberSystem(strSecondNum)) {
                         HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(strSecondNum);
-                        secondNumDec = Integer.parseInt(hex_num.toDecimal());
+                        secondNumDec = Integer.parseInt(hex_num.toDecimal().toString());
                         if (signSecondNum.equals("-")) {
                             secondNumDec *= -1;
                         }
-                        result = DecimalNumberSystem.toHexadecimal((firstNumDec + secondNumDec) + "");
+                        result = DecimalNumberSystem.toHexadecimal((firstNumDec + secondNumDec) + "").toString();
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }

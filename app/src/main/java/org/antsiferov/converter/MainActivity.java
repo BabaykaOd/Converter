@@ -27,8 +27,7 @@ import org.antsiferov.converter.NumberSystem.BinaryNumberSystem;
 import org.antsiferov.converter.NumberSystem.DecimalNumberSystem;
 import org.antsiferov.converter.NumberSystem.HexadecimalNumberSystem;
 import org.antsiferov.converter.NumberSystem.OctalNumberSystem;
-
-import static org.antsiferov.converter.SettingsActivity.APP_PREFERENCES;
+import org.antsiferov.converter.TestClasses.ConvertTest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             second_decimal, second_hexadecimal;
     LinearLayout MainLayout;
     SharedPreferences Settings;
+
+    ConvertTest test = new ConvertTest();
 
     private String TAG = "myLogs";
     private GoogleApiClient client;
@@ -67,27 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Settings = getSharedPreferences(SettingsActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
 
+        test.TestCheckingForComplianceWithANumberSystemReturnTrue();
+        test.TestAllNumberSystemToConvert();
+
         calc.setOnClickListener(this);
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public String format_output(String str) {
-        String temp = "", revers = "";
 
-        for (int i = str.length() - 1; i != -1; i--) {
-            revers += str.charAt(i);
-        }
-
-        for (int i = revers.length() - 1; i != -1; i--) {
-            if ((i + 1) % 4 == 0 && i != 0) {
-                temp += " ";
-            }
-            temp += revers.charAt(i);
-        }
-
-        return temp;
-    }
 
     @Override
     public void onClick(View view) {
@@ -96,13 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (first_binary.isChecked()) {
             BinaryNumberSystem bin_num = new BinaryNumberSystem(str);
 
-            if (bin_num.isBinary()) {
+            if (bin_num.checkingForComplianceWithANumberSystem()) {
                 if (second_octal.isChecked()) {
-                    show.setText(bin_num.toOctal());
+                    show.setText(bin_num.toOctal().toString());
                 } else if (second_decimal.isChecked()) {
-                    show.setText(bin_num.toDecimal());
+                    show.setText(bin_num.toDecimal().toString());
                 } else if (second_hexadecimal.isChecked()) {
-                    show.setText(bin_num.toHexadecimal());
+                    show.setText(bin_num.toHexadecimal().toString());
                 }
             } else {
                 Toast.makeText(MainActivity.this, "Неверный ввод, попробуйте еще раз.", Toast.LENGTH_LONG).show();
@@ -111,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (first_octal.isChecked()) {
             OctalNumberSystem oct_num = new OctalNumberSystem(str);
 
-            if (oct_num.isOctal()) {
+            if (oct_num.checkingForComplianceWithANumberSystem()) {
                 if (second_binary.isChecked()) {
-                    show.setText(format_output(oct_num.toBinary()));
+                    show.setText(oct_num.toBinary().formatOutput());
                 } else if (second_decimal.isChecked()) {
-                    show.setText(oct_num.toDecimal());
+                    show.setText(oct_num.toDecimal().toString());
                 } else if (second_hexadecimal.isChecked()) {
-                    show.setText(oct_num.toHexadecimal());
+                    show.setText(oct_num.toHexadecimal().toString());
                 }
             } else {
                 show.setText("ERROR");
@@ -126,13 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (first_decimal.isChecked()) {
             DecimalNumberSystem dec_num = new DecimalNumberSystem(str);
 
-            if (dec_num.isDecimal()) {
+            if (dec_num.checkingForComplianceWithANumberSystem()) {
                 if (second_octal.isChecked()) {
-                    show.setText(dec_num.toOctal());
+                    show.setText(dec_num.toOctal().toString());
                 } else if (second_binary.isChecked()) {
-                    show.setText(format_output(dec_num.toBinary()));
+                    show.setText(dec_num.toBinary().formatOutput());
                 } else if (second_hexadecimal.isChecked()) {
-                    show.setText(dec_num.toHexadecimal());
+                    show.setText(dec_num.toHexadecimal().toString());
                 }
             } else {
                 show.setText("ERROR");
@@ -141,13 +130,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (first_hexadecimal.isChecked()) {
             HexadecimalNumberSystem hex_num = new HexadecimalNumberSystem(str);
 
-            if (hex_num.isHexadecimal()) {
+            if (hex_num.checkingForComplianceWithANumberSystem()) {
                 if (second_binary.isChecked()) {
-                    show.setText(format_output(hex_num.toBinary()));
+                    show.setText(hex_num.toBinary().formatOutput());
                 } else if (second_octal.isChecked()) {
-                    show.setText(hex_num.toOctal());
+                    show.setText(hex_num.toOctal().toString());
                 } else if (second_decimal.isChecked()) {
-                    show.setText(hex_num.toDecimal());
+                    show.setText(hex_num.toDecimal().toString());
                 }
             } else {
                 show.setText("ERROR");
@@ -213,8 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onStart() {
         super.onStart();
 
-        Log.d(TAG, "Start");
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
@@ -224,8 +211,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onStop() {
         super.onStop();
-
-        Log.d(TAG, "Stop");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

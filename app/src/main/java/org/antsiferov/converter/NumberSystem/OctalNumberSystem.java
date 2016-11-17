@@ -10,96 +10,42 @@ import java.util.regex.Pattern;
  * Created by Бабайка on 24.09.2016.
  */
 
-public class OctalNumberSystem {
-    private String num;
-    static private int number_system = 8;
+public class OctalNumberSystem extends NumberSystem {
+    private static String staticRegExp = "[0-7]+([.]?[0-7]+)?";
 
-    public OctalNumberSystem(String str) {
-        this.num = str;
+    public OctalNumberSystem(String num_str) {
+        super(num_str);
+        super.numberSystem = "7";
     }
 
     public OctalNumberSystem() {
-        this.num = "";
+        super("");
+        super.numberSystem = "7";
     }
 
-    public boolean isOctal() {
-        boolean ok = true;
-
-        if(!num.isEmpty()) {
-            Pattern pattern = Pattern.compile("[0-7]+");
-            Matcher matcher = pattern.matcher(num);
-            if (!matcher.matches()) {
-                ok = false;
-            }
-        } else {
-            ok = false;
-        }
-
-        return ok;
+    @Override
+    public HexadecimalNumberSystem toHexadecimal() {
+        DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal().toString());
+        return dec.toHexadecimal();
     }
 
-    static public boolean isOctal(String number) {
-        boolean ok = true;
 
-        if(!number.isEmpty()) {
-            Pattern pattern = Pattern.compile("[0-7]+");
+    public BinaryNumberSystem toBinary() {
+        DecimalNumberSystem d = new DecimalNumberSystem(this.toDecimal().toString());
+        return new BinaryNumberSystem(d.toBinary().toString());
+    }
+
+    static public boolean checkingForComplianceWithANumberSystem(String number) {
+        if (!number.isEmpty()) {
+            Pattern pattern = Pattern.compile(staticRegExp);
             Matcher matcher = pattern.matcher(number);
             if (!matcher.matches()) {
-                ok = false;
+                return false;
             }
         } else {
-            ok = false;
+            return false;
         }
 
-        return ok;
-    }
-
-    public String toDecimal() {
-        if (isOctal()) {
-            double temp = 0.0;
-            int size = num.length() - 1;
-
-            for (int i = size; i > -1; i--) {
-                temp += (Math.pow(number_system, i) * (((double)(num.charAt(size - i))) - 48));
-            }
-
-            return Integer.toString((int)temp);
-        } else {
-            return "";
-        }
-    }
-
-    static public String toDecimal(String number) {
-        if (OctalNumberSystem.isOctal(number)) {
-            double temp = 0.0;
-            int size = number.length() - 1;
-
-            for (int i = size; i > -1; i--) {
-                temp += (Math.pow(number_system, i) * (((double)(number.charAt(size - i))) - 48));
-            }
-
-            return Integer.toString((int)temp);
-        } else {
-            return "";
-        }
-    }
-
-    public String toHexadecimal() {
-        if (isOctal()) {
-            DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal());
-            return dec.toHexadecimal();
-        } else {
-            return "";
-        }
-    }
-
-    public String toBinary() {
-        if (isOctal()) {
-            DecimalNumberSystem d = new DecimalNumberSystem(this.toDecimal());
-
-            return d.toBinary();
-        } else {
-            return "";
-        }
+        return true;
     }
 }
