@@ -1,8 +1,6 @@
 package org.antsiferov.converter.NumberSystem;
 
 import android.util.Log;
-
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,24 +13,58 @@ public class OctalNumberSystem extends NumberSystem {
 
     public OctalNumberSystem(String num_str) {
         super(num_str);
-        super.numberSystem = "7";
+        super.numberSystem = "8";
     }
 
     public OctalNumberSystem() {
         super("");
-        super.numberSystem = "7";
+        super.numberSystem = "8";
     }
 
-    @Override
+    public BinaryNumberSystem toBinary() {
+        Log.d("octal", "number = " + number);
+        DecimalNumberSystem d = new DecimalNumberSystem(this.toDecimal().toString());
+        return new BinaryNumberSystem(d.toBinary().toString());
+    }
+
+    public DecimalNumberSystem toDecimal() {
+        int decimalNumber = toDecimalIntPart();
+        double decimalDoublePart = toDecimalDoublePart();
+
+        if (decimalDoublePart != 0) {
+            return new DecimalNumberSystem((decimalDoublePart + decimalNumber) + "");
+        } else {
+            return new DecimalNumberSystem(decimalNumber + "");
+        }
+    }
+
     public HexadecimalNumberSystem toHexadecimal() {
         DecimalNumberSystem dec = new DecimalNumberSystem(this.toDecimal().toString());
         return dec.toHexadecimal();
     }
 
+    private int toDecimalIntPart() {
+        int temp = 0;
+        String intPartOctalNumber = getIntPart();
+        int size = intPartOctalNumber.length() - 1;
 
-    public BinaryNumberSystem toBinary() {
-        DecimalNumberSystem d = new DecimalNumberSystem(this.toDecimal().toString());
-        return new BinaryNumberSystem(d.toBinary().toString());
+        for (int i = size; i > -1; i--) {
+            temp += (Math.pow(Integer.parseInt(numberSystem), i) * Integer.parseInt(intPartOctalNumber.charAt(size - i) + ""));
+        }
+
+        return temp;
+    }
+
+    private double toDecimalDoublePart() {
+        String doublePart = getDoublePart();
+        double decNum = 0.0;
+        int size = doublePart.length();
+
+        for (int i = 0; i < size; i++) {
+            decNum += (Math.pow(8, (i + 1) * -1) * Integer.parseInt(doublePart.charAt(i) + ""));
+        }
+
+        return decNum;
     }
 
     static public boolean checkingForComplianceWithANumberSystem(String number) {

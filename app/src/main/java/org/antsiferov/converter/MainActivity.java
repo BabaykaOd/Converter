@@ -68,8 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Settings = getSharedPreferences(SettingsActivity.APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        test.TestCheckingForComplianceWithANumberSystemReturnTrue();
-        test.TestAllNumberSystemToConvert();
+        //test.TestCheckingForComplianceWithANumberSystemReturnTrue();
+        //test.TestAllNumberSystemToConvert();
+        test.TestAllNumberSystemToConvertDoubleNumber();
 
         calc.setOnClickListener(this);
 
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (oct_num.checkingForComplianceWithANumberSystem()) {
                 if (second_binary.isChecked()) {
-                    show.setText(oct_num.toBinary().formatOutput());
+                    show.setText(oct_num.toBinary().toString());
                 } else if (second_decimal.isChecked()) {
                     show.setText(oct_num.toDecimal().toString());
                 } else if (second_hexadecimal.isChecked()) {
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (second_octal.isChecked()) {
                     show.setText(dec_num.toOctal().toString());
                 } else if (second_binary.isChecked()) {
-                    show.setText(dec_num.toBinary().formatOutput());
+                    show.setText(dec_num.toBinary().toString());
                 } else if (second_hexadecimal.isChecked()) {
                     show.setText(dec_num.toHexadecimal().toString());
                 }
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (hex_num.checkingForComplianceWithANumberSystem()) {
                 if (second_binary.isChecked()) {
-                    show.setText(hex_num.toBinary().formatOutput());
+                    show.setText(hex_num.toBinary().toString());
                 } else if (second_octal.isChecked()) {
                     show.setText(hex_num.toOctal().toString());
                 } else if (second_decimal.isChecked()) {

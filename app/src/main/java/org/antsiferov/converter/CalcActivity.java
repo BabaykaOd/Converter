@@ -149,6 +149,8 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                 firstNumDec *= -1;
             }
 
+            DecimalNumberSystem decNum = new DecimalNumberSystem();
+
             switch (rgSecond_radio_group.getCheckedRadioButtonId()) {
                 case R.id.second_binary_sum:
                     if (BinaryNumberSystem.checkingForComplianceWithANumberSystem(strSecondNum)) {
@@ -158,7 +160,9 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                             secondNumDec *= -1;
                         }
 
-                        result = DecimalNumberSystem.toBinary((firstNumDec + secondNumDec) + "");
+                        decNum.setNumber((firstNumDec + secondNumDec) + "");
+
+                        result = decNum.toBinary().toString();
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
@@ -171,7 +175,9 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                             secondNumDec *= -1;
                         }
 
-                        result = DecimalNumberSystem.toOctal((firstNumDec + secondNumDec) + "");
+                        decNum.setNumber((firstNumDec + secondNumDec) + "");
+
+                        result = decNum.toOctal().toString();
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
@@ -196,7 +202,10 @@ public class CalcActivity extends AppCompatActivity implements View.OnClickListe
                         if (signSecondNum.equals("-")) {
                             secondNumDec *= -1;
                         }
-                        result = DecimalNumberSystem.toHexadecimal((firstNumDec + secondNumDec) + "").toString();
+
+                        decNum.setNumber((firstNumDec + secondNumDec) + "");
+
+                        result = decNum.toHexadecimal().toString();
                     } else {
                         Toast.makeText(CalcActivity.this, "Неверный ввод, введите корректные значения.", Toast.LENGTH_LONG).show();
                     }
